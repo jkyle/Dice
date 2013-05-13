@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dice</title>
+    <style type="text/css">
+      .three-sided {
+        font-size: 3em;
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-bottom: 100px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="board">
+      <div class="three-sided">4</div>
+    </div>
+    <script type="text/javascript" data-main="src/config.js" src="components/requirejs/require.js"></script>
+    <script type="text/javascript">
+      require(['table', 'dice'], function(Table, Dice){
+        var attackDice = new Dice(['', '', 'f', 'f', 'h', 'h', 'h', 'C']);
+        var evadeDice = new Dice(['', '', '', 'f', 'f', 'e', 'e', 'e']);
+
+        var table = new Table();
+
+      })
+    </script>
+  </body>
+</html>

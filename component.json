@@ -1,0 +1,10 @@
+{
+  "name": "dice",
+  "description": "Dice generator.",
+  "version": "0.0.1",
+  "dependencies": {
+    "lodash": "latest",
+    "requirejs": "latest",
+    "zepto": "latest"
+  }
+}
