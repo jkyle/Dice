@@ -11,10 +11,11 @@ define(
   DiceGroup
 ){
 
-  var Table = function( name ){
+  var Table = function( containerSelector ){
+    this.$el = $(containerSelector);
     this._diceGroups = {};
 
-    var defaultDiceGroup = new DiceGroup('defualt');
+    var defaultDiceGroup = new DiceGroup('default');
     this.addDiceGroup(defaultDiceGroup);
   };
 
@@ -39,6 +40,12 @@ define(
 
   Table.prototype.addDice = function( dice ){
     this.getDiceGroup('default').addDice( dice );
+  };
+
+  Table.prototype.render = function(){
+    _.each(this._diceGroups, function(diceGroup){
+      diceGroup.render();
+    })
   };
 
   return Table;

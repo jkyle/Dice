@@ -35,14 +35,14 @@ define(
 
   DiceGroup.prototype.addDice = function( dice ){
     if ( _.isArray(dice) ) {
-      this.dice = this.dice.concat(dice);
+      this._dice = this._dice.concat(dice);
     } else {
-      this.dice.push( dice );
+      this._dice.push( dice );
     }
   }
 
   DiceGroup.prototype.render = function(){
-    _.each(this.dice, function(die){
+    _.each(this._dice, function(die){
       die.render();
     });
   }
