@@ -44,8 +44,9 @@ define(
 
   Table.prototype.render = function(){
     _.each(this._diceGroups, function(diceGroup){
+      this.$el.append(diceGroup.$el);
       diceGroup.render();
-    })
+    }, this);
   };
 
   return Table;

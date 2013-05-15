@@ -11,14 +11,17 @@ define(
     var random = function(numberOfFaces){ return Math.floor( Math.random() * numberOfFaces ) }
 
     var Dice = function(faces){
+      this.$el = $('<div>').addClass("die");
+
       this.faces = faces;
       this.numberOfFaces = faces.length;
+      this.activeFace = this.faces[random(this.numberOfFaces)];
       this.rollCount = 0;
     };
 
     Dice.prototype.roll = function(){
       this.rollCount += 1;
-      return this.faces[random(this.numberOfFaces)];
+      this.activeFace = this.faces[random(this.numberOfFaces)];
     }
 
     Dice.prototype.reset = function(){
@@ -26,7 +29,7 @@ define(
     }
 
     Dice.prototype.render = function(){
-      console.log(this);
+      this.$el.html(this.activeFace);
     }
 
     return Dice;

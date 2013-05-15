@@ -10,6 +10,7 @@ define(
 ){
 
   var DiceGroup = function( name, dice ){
+    this.$el = $('<div>');
     if( dice && _.isArray(dice) ) {
       this._dice = dice;
     } else if ( dice ) {
@@ -43,8 +44,9 @@ define(
 
   DiceGroup.prototype.render = function(){
     _.each(this._dice, function(die){
+      this.$el.append(die.$el);
       die.render();
-    });
+    }, this);
   }
 
   return DiceGroup;
