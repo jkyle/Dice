@@ -2,8 +2,7 @@ define(
   [
     'lodash',
     'zepto',
-    'face',
-    'extend'
+    'face'
   ],
   function(
     _,
@@ -11,23 +10,23 @@ define(
     Face
   ){
 
-    var random = function(numberOfFaces){ return Math.floor( Math.random() * numberOfFaces ) }
+    var random = function(numberOfFaces){ return Math.floor( Math.random() * numberOfFaces ); };
 
     var Dice = function(faces, options){
       this.$el = $('<div>').addClass("die");
 
       if(options && options.color){
-        this.$el.css('background-color', options.color)
+        this.$el.css('background-color', options.color);
       }
 
       var that = this;
       this.$el.click(function(e){ that.roll() });
 
       this.faces = [];
-      
+
       _.each(faces, function(face){
         this.faces.push(new Face(face.type, face.value));
-      }, this)
+      }, this);
       
       this.numberOfFaces = faces.length;
       this.activeFace = this.faces[random(this.numberOfFaces)];
