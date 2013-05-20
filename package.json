@@ -1,0 +1,28 @@
+{
+  "name": "NoDice",
+  "version": "0.0.1",
+  "description": "Dice roller and generator.",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jkyle/Dice.git"
+  },
+  "keywords": [
+    "die",
+    "dice",
+    "games"
+  ],
+  "author": "J. Kyle Fagan",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "9ae052d45260320689f5352952ef72f7d6e3ad14",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.4.3",
+    "grunt-contrib-stylus": "~0.5.0",
+    "svgo-grunt": "0.0.3"
+  }
+}

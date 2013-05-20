@@ -1,8 +1,11 @@
 
 require.config({
+  deps: ['init'],
   paths: {
     zepto: '../components/zepto/zepto',
-    lodash: '../components/lodash/dist/lodash'
+    lodash: '../components/lodash/dist/lodash',
+    fastclick: '../components/fastclick/lib/fastclick',
+    text: '../components/requirejs-text/text'
   },
 
   shim: {

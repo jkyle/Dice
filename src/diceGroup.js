@@ -9,6 +9,21 @@ define(
   Dice
 ){
 
+  var NewDiceButton = function(){
+    this.$el = $('<div>');
+    this.$el.click(function(){
+
+    })
+  }
+
+  var RollAllButton = function(diceGroup){
+    this.$el = $('<div>Roll All</div>');
+    this.$el.click(function(){
+      diceGroup.rollAll();
+    });
+    return this.$el;
+  }
+
   var DiceGroup = function( name, dice ){
     this.$el = $('<div>');
     if( dice && _.isArray(dice) ) {
@@ -42,11 +57,18 @@ define(
     }
   }
 
+  DiceGroup.prototype.rollAll = function(){
+    _.each(this._dice, function(die){
+      die.roll();
+    })
+  }
+
   DiceGroup.prototype.render = function(){
     _.each(this._dice, function(die){
       this.$el.append(die.$el);
       die.render();
     }, this);
+    this.$el.append(new RollAllButton(this));
   }
 
   return DiceGroup;

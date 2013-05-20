@@ -5,6 +5,8 @@
   "dependencies": {
     "lodash": "latest",
     "requirejs": "latest",
-    "zepto": "latest"
+    "zepto": "latest",
+    "fastclick": "~0.6.7",
+    "requirejs-text": "~2.0.6"
   }
 }

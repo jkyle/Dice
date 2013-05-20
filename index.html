@@ -2,29 +2,7 @@
 <html>
   <head>
     <title>Dice</title>
-    <style type="text/css">
-      #board {
-        
-      }
-      .die {
-        transition:all 0.2s ease-in-out;
-        border: 1px solid #444;
-        padding: 10px;
-        margin: 10px;
-        width: 2em;
-        height: 2em;
-        line-height: 2em;
-        text-align: center;
-      }
-      .die.rolling {
-         -webkit-transform: perspective(1000) translate3d(0, 0, 100px);
-         /*-webkit-transform: scale3d(1.25,1.25,0);*/
-         /*-moz-transform: translate3d(0, 0, 0);
-         -ms-transform: translate3d(0, 0, 0);
-         transform: translate3d(0, 0, 200px);*/
-        /* Other transform properties here */
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="src/style.css">
   </head>
   <body>
     <div id="board">
@@ -32,18 +10,7 @@
     </div>
     <script type="text/javascript" data-main="src/config.js" src="components/requirejs/require.js"></script>
     <script type="text/javascript">
-      require(['table', 'dice'], function(Table, Dice){
-        var attackDice = new Dice(['', '', 'f', 'f', 'h', 'h', 'h', 'C']);
-        var evadeDice = new Dice(['', '', '', 'f', 'f', 'e', 'e', 'e']);
-        var ten_sided = new Dice([1,2,3,4,5,6,7,8,9,0])
 
-        var table = new Table('#board');
-        table.addDice([attackDice, evadeDice, ten_sided]);$
-
-
-        table.render();
-
-      })
     </script>
   </body>
 </html>
