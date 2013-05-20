@@ -17,11 +17,11 @@ function(
   };
 
   var faces = [
-    {type:'svg', value:FocusImage}
+    {type:'text', value:'>'}
   ]
 
   var Directional = function(options){
-    var opts = _.extend({}, options)
+    var opts = _.extend({ color: '#348854'}, options)
     Dice.call(this, faces, opts)
   }
 
@@ -30,7 +30,7 @@ function(
   Directional.prototype = new Surrogate;
 
   Directional.prototype.getFace = function(){
-    this.$el.css('-webkit-transform', 'rotateZ('+randomDegree()+')');
+    this.activeFace.$el.css('-webkit-transform', 'rotateZ('+randomDegree()+'deg)');
   }
 
   return Directional
