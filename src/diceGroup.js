@@ -119,8 +119,9 @@ define(
   DiceGroup.prototype.render = function(){
     this.$el.empty();
     _.each(this._dice, function(die){
-      this.$el.append(die.$el);
+      this.$el.append(die.$el.addClass('born'));
       die.render();
+      die.$el.removeClass('born');
     }, this);
     this.$el.append(new ActionContainer(this));
   }
