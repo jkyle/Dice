@@ -1,15 +1,11 @@
 define(
 [
   'dice',
-  'text!images/hit.svg',
-  'text!images/critical.svg',
-  'text!images/focus.svg'
+  'text!images/arrow.svg',
 ],
 function(
   Dice,
-  HitImage,
-  CriticalImage,
-  FocusImage
+  ArrowImage
 ){
 
   var randomDegree = function(){
@@ -17,7 +13,7 @@ function(
   };
 
   var faces = [
-    {type:'text', value:'>'}
+    {type:'svg', value:ArrowImage}
   ]
 
   var Directional = function(options){

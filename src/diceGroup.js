@@ -2,22 +2,74 @@ define(
 [
   'zepto',
   'lodash',
-  'dice'
+  'dice',
+
+  'text!images/roll.svg',
+  'text!images/add.svg',
+
+  'dice/tenSided',
+  'dice/attackDice',
+  'dice/directional'
 ], function(
   $,
   _,
-  Dice
+  Dice,
+
+  RollImage,
+  AddImage,
+  
+  AttackDice,
+  TenSided,
+  Directional
 ){
 
-  var NewDiceButton = function(){
-    this.$el = $('<div>');
-    this.$el.click(function(){
+  var newDiceList = [AttackDice, TenSided, Directional];
 
+  var newDiceListView = function(diceGroup){
+    this.$el = $('<div>');
+    
+    _.each(newDiceList, function(die){
+      var newDie = new die({color: '#ccc'});
+      this.$el.append(newDie.$el);
+      newDie.$el.click(function(){
+        diceGroup.addDice(new die());
+      })
+      newDie.render();
+    }, this)
+
+    return this.$el;
+  }
+
+  var ActionContainer = function(diceGroup){
+    this.$el = $('<div>').addClass('listWrapper');
+    
+    var rollButton = new RollAllButton(diceGroup);
+    this.$el.append(rollButton);
+
+    var newDiceButton = new NewDiceButton();
+    this.$el.append(newDiceButton);
+    
+    var newDice = new newDiceListView(diceGroup);
+    this.$el.append(newDice.hide());
+
+    newDiceButton.click(function(){
+      rollButton.hide();
+      newDiceButton.hide();
+      newDice.show();
     })
+
+    return this.$el;
+  }
+
+  var NewDiceButton = function(diceGroup){
+    this.$el = $('<div>').addClass('die button');
+    this.$el.html(AddImage);
+    return this.$el;
   }
 
   var RollAllButton = function(diceGroup){
-    this.$el = $('<div>Roll All</div>');
+    this.$el = $('<div>').addClass('die button');
+    this.$el.html(RollImage);
     this.$el.click(function(){
       diceGroup.rollAll();
     });
@@ -55,6 +107,7 @@ define(
     } else {
       this._dice.push( dice );
     }
+    this.render();
   }
 
   DiceGroup.prototype.rollAll = function(){
@@ -64,11 +117,12 @@ define(
   }
 
   DiceGroup.prototype.render = function(){
+    this.$el.empty();
     _.each(this._dice, function(die){
       this.$el.append(die.$el);
       die.render();
     }, this);
-    this.$el.append(new RollAllButton(this));
+    this.$el.append(new ActionContainer(this));
   }
 
   return DiceGroup;
