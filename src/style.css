@@ -24,6 +24,9 @@
   overflow: auto;
   width: 100%;
 }
+.actions {
+  background-color: #999;
+}
 .die {
   float: left;
   font-size: 3em;
