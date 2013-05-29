@@ -13,10 +13,16 @@ define(
 
   var Table = function( containerSelector ){
     this.$el = $(containerSelector);
+    this.$actionEl = $('<div>').addClass('actions hidden').appendTo(this.$el);
+
     this._diceGroups = {};
 
     var defaultDiceGroup = new DiceGroup('default');
     this.addDiceGroup(defaultDiceGroup);
+
+    $(document).on('action', function(e, die){
+      console.log(die);
+    })
   };
 
   Table.prototype.addDiceGroup = function( diceGroup, dice ){
@@ -25,6 +31,7 @@ define(
     } else if( _.isArray(diceGroup) ) {
       this.addDiceGroup( new DiceGroup(diceGroup) )
     } else {
+      diceGroup.table = this;
       this._diceGroups[diceGroup.name] = diceGroup;
     }
   };

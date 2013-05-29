@@ -23,7 +23,10 @@ define(
 
       var that = this;
       // this.$el.click(function(e){ that.roll() });
-      this.$el.click(function(e){ that.showActions(); })
+      this.$el.click(function(e){ 
+        console.log(that.locked);
+        that.toggleLock();
+      })
 
       this.faces = [];
 
@@ -48,18 +51,21 @@ define(
     }
 
     Dice.prototype.showActions = function(){
-      this.$el.empty()
-      _.each(this.getActions(), function(action){
-        this.$el.append(action.$el);
-      }, this);
+      // this.$el.empty()
+      // _.each(this.getActions(), function(action){
+      //   this.$el.append(action.$el);
+      // }, this);
+      $(document).trigger('action', [this.getActions()])
     };
 
     Dice.prototype.lock = function(){
       this.locked = true;
+      this.$el.addClass('locked');
     };
 
     Dice.prototype.unlock = function(){
       this.locked = false;
+      this.$el.removeClass('locked');
     };
 
     Dice.prototype.toggleLock = function(){
