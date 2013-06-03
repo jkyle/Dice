@@ -17,7 +17,7 @@ function(
   ]
 
   var Directional = function(options){
-    var opts = _.extend({ color: '#348854'}, options)
+    var opts = _.extend({ color: '#348854', name: 'Directional Dice'}, options)
     Dice.call(this, faces, opts)
   }
 

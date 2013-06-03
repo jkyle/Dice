@@ -40,41 +40,47 @@ define(
     return this.$el;
   }
 
+  var NewDiceButton = function(diceGroup){
+    this.$el = $('<div>').addClass('die-container button');
+    this.$face = $('<div>').addClass('die-face').appendTo(this.$el);
+    this.$face.html(AddImage);
+    
+    return this;
+  }
+
+  var RollAllButton = function(diceGroup){
+    this.$el = $('<div>').addClass('die-container button');
+    this.$face = $('<div>').addClass('die-face').appendTo(this.$el);
+    this.$face.html(RollImage);
+
+    return this;
+  }
+
   var ActionContainer = function(diceGroup){
     this.$el = $('<div>').addClass('listWrapper');
     
     var rollButton = new RollAllButton(diceGroup);
-    this.$el.append(rollButton);
+    this.$el.append(rollButton.$el);
 
     var newDiceButton = new NewDiceButton();
-    this.$el.append(newDiceButton);
+    this.$el.append(newDiceButton.$el);
     
     var newDice = new newDiceListView(diceGroup);
     this.$el.append(newDice.hide());
 
-    newDiceButton.click(function(){
-      rollButton.hide();
-      newDiceButton.hide();
+    newDiceButton.$el.click(function(){
+      rollButton.$el.hide();
+      newDiceButton.$el.hide();
       newDice.show();
     })
 
-    return this.$el;
-  }
-
-  var NewDiceButton = function(diceGroup){
-    this.$el = $('<div>').addClass('die button');
-    this.$el.html(AddImage);
-    return this.$el;
-  }
-
-  var RollAllButton = function(diceGroup){
-    this.$el = $('<div>').addClass('die button');
-    this.$el.html(RollImage);
-    this.$el.click(function(){
+    rollButton.$el.click(function(){
       diceGroup.rollAll();
     });
+
     return this.$el;
   }
+
 
   var DiceGroup = function( name, dice ){
     this.$el = $('<div>');
@@ -95,6 +101,16 @@ define(
       this.name = _.uniqueId();
       this._dice = [];
     }
+
+    this.viewType = 'grid';
+  };
+
+  DiceGroup.prototype.setListView = function(){
+    this.viewType = 'list';
+  };
+
+  DiceGroup.prototype.setGridView = function(){
+    this.viewType = 'grid';
   };
 
   DiceGroup.prototype.getDice = function(){
@@ -110,6 +126,19 @@ define(
     this.render();
   }
 
+  DiceGroup.prototype.getActions = function(){
+    var actions = [];
+
+    if( this.getDice().length > 0 ){
+      actions.push('rollAll');
+
+      _.each(this.getDice(), function(die){
+        actions = actions.concat(die.getActions());
+      });
+    }
+
+  };
+
   DiceGroup.prototype.rollAll = function(){
     _.each(this._dice, function(die){
       die.roll();
@@ -119,9 +148,9 @@ define(
   DiceGroup.prototype.render = function(){
     this.$el.empty();
     _.each(this._dice, function(die){
-      this.$el.append(die.$el.addClass('born'));
-      die.render();
-      die.$el.removeClass('born');
+      this.$el.append(die.$el);
+      die.render(this.viewType);
+      // die.$el.removeClass('born');
     }, this);
     this.$el.append(new ActionContainer(this));
   }

@@ -14,17 +14,28 @@ define(
 
     var random = function(numberOfFaces){ return Math.floor( Math.random() * numberOfFaces ); };
 
-    var Dice = function(faces, options){
-      this.$el = $('<div>').addClass("die");
+    var DieDetailView = function(die){
+      this.$el = $('<div>'+die.name+', '+die.numberOfFaces+'</div>').addClass('listView');
+    };
+
+    var Die = function(faces, options){
+      this.born = true;
+      this.$el = $('<div>').addClass('die-container born');
+
+      this.name = options.name;
+      this.description = options.description;
+
+      this.faceView = $('<div>').addClass('die-face').appendTo(this.$el);
+      this.detailView = new DieDetailView(this);
+      this.detailView.$el.appendTo(this.$el);
 
       if(options && options.color){
-        this.$el.css('background-color', options.color);
+        this.faceView.css('background-color', options.color);
       }
 
       var that = this;
       // this.$el.click(function(e){ that.roll() });
       this.$el.click(function(e){ 
-        console.log(that.locked);
         that.toggleLock();
       })
 
@@ -46,29 +57,25 @@ define(
 
     };
 
-    Dice.prototype.getActions = function(){
+    Die.prototype.getActions = function(){
       return this.actions.concat(this.activeFace.getActions());
     }
 
-    Dice.prototype.showActions = function(){
-      // this.$el.empty()
-      // _.each(this.getActions(), function(action){
-      //   this.$el.append(action.$el);
-      // }, this);
+    Die.prototype.showActions = function(){
       $(document).trigger('action', [this.getActions()])
     };
 
-    Dice.prototype.lock = function(){
+    Die.prototype.lock = function(){
       this.locked = true;
       this.$el.addClass('locked');
     };
 
-    Dice.prototype.unlock = function(){
+    Die.prototype.unlock = function(){
       this.locked = false;
       this.$el.removeClass('locked');
     };
 
-    Dice.prototype.toggleLock = function(){
+    Die.prototype.toggleLock = function(){
       if(this.locked){
         this.unlock();
       } else {
@@ -76,14 +83,14 @@ define(
       }
     }
 
-    Dice.prototype.getFace = function(){
+    Die.prototype.getFace = function(){
       this.activeFace = this.faces[random(this.numberOfFaces)];
     }
 
-    Dice.prototype.roll = function(){
+    Die.prototype.roll = function(){
       if(this.locked){ return; }
 
-      this.$el.addClass('rolling');
+      this.faceView.addClass('rolling');
       this.rollCount += 1;
       
       var start = new Date().getTime();
@@ -91,7 +98,8 @@ define(
       var that = this;
 
       that.getFace();
-      that.render();
+      that.activeFace.render();
+      that.faceView.html( that.activeFace.$el );
 
       var step = function(timestamp){
         var now = new Date().getTime(),
@@ -99,13 +107,14 @@ define(
             dt = now - last;
         if(dt > 50){
           that.getFace();
-          that.render();
+          that.activeFace.render();
+          that.faceView.html( that.activeFace.$el );
           last = now;
         }
         if(ds < 500){
           requestAnimationFrame(step);
         } else {
-          that.$el.removeClass('rolling');
+          that.faceView.removeClass('rolling');
         }
 
       }
@@ -113,15 +122,32 @@ define(
       step();
     }
 
-    Dice.prototype.reset = function(){
+    Die.prototype.reset = function(){
       this.rollCount = 0;
     }
 
-    Dice.prototype.render = function(){
+    Die.prototype.render = function(state){
+      var viewState = state || 'grid';
       this.activeFace.render();
-      this.$el.html( this.activeFace.$el ) ;
+      this.faceView.html( this.activeFace.$el );
+      if (viewState === 'list') {
+        this.$el.addClass('list');
+        // this.detailView.$el.hide();
+        this.detailView.$el.show();
+        this.$el.removeClass('grid');
+      } else {
+        this.$el.removeClass('list');
+        // this.detailView.$el.show();
+        this.detailView.$el.hide();
+        this.$el.addClass('grid');
+      }
+
+      if(this.born){
+        this.$el.removeClass('born');
+        this.born = false;
+      }
     }
 
-    return Dice;
+    return Die;
   }
 )

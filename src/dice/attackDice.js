@@ -24,7 +24,7 @@ function(
   ]
 
   var AttackDice = function(options){
-    var opts = _.extend({}, options)
+    var opts = _.extend({ name: 'Attack Dice' }, options)
     Dice.call(this, faces, opts)
   }
 

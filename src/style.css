@@ -12,8 +12,6 @@
   font-style: normal;
 }
 #board {
-  font-family: 'MolotRegular';
-  font: 100%/1.5;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 .face.img {
@@ -27,15 +25,10 @@
 .actions {
   background-color: #999;
 }
-.die {
+.die-container {
   float: left;
-  font-size: 3em;
   margin: 0.25em;
-  width: 1.5em;
-  height: 1.5em;
   line-height: 1em;
-  color: #fff;
-  background-color: #f23581;
   text-align: center;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -55,25 +48,50 @@
   -ms-transform: scale3d(1, 1, 1);
   transform: scale3d(1, 1, 1);
 }
-.die.born {
+.die-face {
+  font-family: 'MolotRegular';
+  font: 100%/1.5;
+  float: left;
+  font-size: 3em;
+  width: 1.5em;
+  height: 1.5em;
+  line-height: 1em;
+  color: #fff;
+  background-color: #f23581;
+  text-align: center;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+.die-container.born {
   -webkit-transform: scale3d(0, 0, 0);
   -moz-transform: scale3d(0, 0, 0);
   -o-transform: scale3d(0, 0, 0);
   -ms-transform: scale3d(0, 0, 0);
   transform: scale3d(0, 0, 0);
 }
-.die.button {
+.die-container.button {
   background-color: #aaa;
 }
-.die.locked {
+.die-container.locked {
   background-color: #ccc;
+}
+.die-container.list {
+  width: 300px;
+  clear: both;
+}
+.listView {
+  height: 1.5em;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  margin-left: 2px;
+  background-color: #eee;
 }
 .face {
   width: 100%;
   height: 100%;
   padding: 0.25em;
 }
-.die.rolling {
+.die-face.rolling {
   -webkit-animation-name: wobble;
   -moz-animation-name: wobble;
   -o-animation-name: wobble;

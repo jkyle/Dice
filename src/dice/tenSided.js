@@ -21,7 +21,8 @@ function(
 
   var TenSided = function(options){
     var opts = _.extend({
-      color: '#f2340a'
+      color: '#f2340a',
+      name: 'Ten Sided'
     }, options)
     Dice.call(this, faces, opts)
   };

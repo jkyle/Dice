@@ -11,8 +11,21 @@ define(
   DiceGroup
 ){
 
+  var ViewOptionsView = function(){
+    this.$el = $('<div>');
+    this.$gridView = $('<span>Grid View</span>');
+    this.$listView = $('<span>List View</span>');
+    this.$el.append(this.$gridView).append(this.$listView);
+  }
+
   var Table = function( containerSelector ){
+    var that = this;
+
+    var viewOptionsView = new ViewOptionsView();
+
     this.$el = $(containerSelector);
+    this.$el.prepend(viewOptionsView.$el);
+
     this.$actionEl = $('<div>').addClass('actions hidden').appendTo(this.$el);
 
     this._diceGroups = {};
@@ -23,6 +36,24 @@ define(
     $(document).on('action', function(e, die){
       console.log(die);
     })
+
+    viewOptionsView.$gridView.click(function(){ that.setGridView() });
+    viewOptionsView.$listView.click(function(){ that.setListView() });
+
+  };
+
+  Table.prototype.setGridView = function(){
+    _.each(this._diceGroups, function(diceGroup){
+      diceGroup.setGridView();
+    });
+    this.render();
+  };
+
+  Table.prototype.setListView = function(){
+    _.each(this._diceGroups, function(diceGroup){
+      diceGroup.setListView();
+    });
+    this.render();
   };
 
   Table.prototype.addDiceGroup = function( diceGroup, dice ){
