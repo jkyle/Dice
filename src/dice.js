@@ -19,41 +19,35 @@ define(
     };
 
     var Die = function(faces, options){
-      this.born = true;
-      this.$el = $('<div>').addClass('die-container born');
+      var that = this;
 
+      this.born = true;
       this.name = options.name;
       this.description = options.description;
-
-      this.faceView = $('<div>').addClass('die-face').appendTo(this.$el);
-      this.detailView = new DieDetailView(this);
-      this.detailView.$el.appendTo(this.$el);
-
-      if(options && options.color){
-        this.faceView.css('background-color', options.color);
-      }
-
-      var that = this;
-      // this.$el.click(function(e){ that.roll() });
-      this.$el.click(function(e){ 
-        that.toggleLock();
-      })
 
       this.faces = [];
 
       _.each(faces, function(face){
         this.faces.push(new Face(face.type, face.value));
       }, this);
-      
+
       this.numberOfFaces = faces.length;
       this.activeFace = this.faces[random(this.numberOfFaces)];
       this.rollCount = 0;
       this.locked = false;
 
-      this.actions = [
-        new Action(this, "Lock", function(){ that.toggleLock() }),
-        new Action(this, "Roll", function(){ that.roll()} )
-      ]
+      this.$el = $('<div>').addClass('die-container born');
+      this.faceView = $('<div>').addClass('die-face').appendTo(this.$el);
+      this.detailView = new DieDetailView(this);
+      this.detailView.$el.appendTo(this.$el);
+
+      // if(options && options.color){
+      //   this.faceView.css('background-color', options.color);
+      // }
+
+      this.$el.click(function(e){
+        that.toggleLock();
+      })
 
     };
 
@@ -85,11 +79,12 @@ define(
 
     Die.prototype.getFace = function(){
       this.activeFace = this.faces[random(this.numberOfFaces)];
-    }
+    };
 
     Die.prototype.roll = function(){
-      if(this.locked){ return; }
+      if(this.locked || this.rolling){ return; }
 
+      this.rolling = true;
       this.faceView.addClass('rolling');
       this.rollCount += 1;
       
@@ -100,7 +95,6 @@ define(
       that.getFace();
       that.activeFace.render();
       that.faceView.html( that.activeFace.$el );
-
       var step = function(timestamp){
         var now = new Date().getTime(),
             ds = now - start,
@@ -115,6 +109,7 @@ define(
           requestAnimationFrame(step);
         } else {
           that.faceView.removeClass('rolling');
+          that.rolling = false;
         }
 
       }
@@ -124,29 +119,30 @@ define(
 
     Die.prototype.reset = function(){
       this.rollCount = 0;
-    }
+    };
 
     Die.prototype.render = function(state){
+      var that = this;
       var viewState = state || 'grid';
       this.activeFace.render();
       this.faceView.html( this.activeFace.$el );
       if (viewState === 'list') {
         this.$el.addClass('list');
-        // this.detailView.$el.hide();
         this.detailView.$el.show();
         this.$el.removeClass('grid');
       } else {
         this.$el.removeClass('list');
-        // this.detailView.$el.show();
         this.detailView.$el.hide();
         this.$el.addClass('grid');
       }
 
       if(this.born){
-        this.$el.removeClass('born');
+        setTimeout(function(){
+          that.$el.removeClass('born');
+        }, 0);
         this.born = false;
       }
-    }
+    };
 
     return Die;
   }

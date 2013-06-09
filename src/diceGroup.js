@@ -74,7 +74,7 @@ define(
       newDice.show();
     })
 
-    rollButton.$el.click(function(){
+    rollButton.$el.mouseup(function(){
       diceGroup.rollAll();
     });
 
