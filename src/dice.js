@@ -34,7 +34,7 @@ define(
       this.numberOfFaces = faces.length;
       this.activeFace = this.faces[random(this.numberOfFaces)];
       this.rollCount = 0;
-      this.locked = false;
+      this.selected = true;
 
       this.$el = $('<div>').addClass('die-container born');
       this.faceView = $('<div>').addClass('die-face').appendTo(this.$el);
@@ -45,9 +45,17 @@ define(
       //   this.faceView.css('background-color', options.color);
       // }
 
-      this.$el.click(function(e){
-        that.toggleLock();
-      })
+      var evt;
+
+      if(Modernizr.touch){
+        evt = 'tap';
+      } else {
+        evt = 'click';
+      }
+
+      this.$el.on(evt, function(e){
+        that.toggleSelected();
+      })  
 
     };
 
@@ -59,21 +67,23 @@ define(
       $(document).trigger('action', [this.getActions()])
     };
 
-    Die.prototype.lock = function(){
-      this.locked = true;
-      this.$el.addClass('locked');
+    Die.prototype.select = function(){
+      this.selected = true;
+      this.$el.removeClass('deselected');
+      this.activeFace.unlock();
     };
 
-    Die.prototype.unlock = function(){
-      this.locked = false;
-      this.$el.removeClass('locked');
+    Die.prototype.deselect = function(){
+      this.selected = false;
+      this.$el.addClass('deselected');
+      this.activeFace.lock();
     };
 
-    Die.prototype.toggleLock = function(){
-      if(this.locked){
-        this.unlock();
+    Die.prototype.toggleSelected = function(){
+      if(this.selected){
+        this.deselect();
       } else {
-        this.lock();
+        this.select();
       }
     }
 
@@ -82,7 +92,7 @@ define(
     };
 
     Die.prototype.roll = function(){
-      if(this.locked || this.rolling){ return; }
+      if(!this.selected || this.rolling){ return; }
 
       this.rolling = true;
       this.faceView.addClass('rolling');
@@ -119,6 +129,10 @@ define(
 
     Die.prototype.reset = function(){
       this.rollCount = 0;
+    };
+
+    Die.prototype.destroy = function(){
+      this.$el.off('click');
     };
 
     Die.prototype.render = function(state){

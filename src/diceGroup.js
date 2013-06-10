@@ -6,6 +6,7 @@ define(
 
   'text!images/roll.svg',
   'text!images/add.svg',
+  'text!images/remove.svg',
 
   'dice/tenSided',
   'dice/attackDice',
@@ -17,6 +18,7 @@ define(
 
   RollImage,
   AddImage,
+  RemoveImage,
   
   AttackDice,
   TenSided,
@@ -48,6 +50,14 @@ define(
     return this;
   }
 
+  var RemoveDiceButton = function(diceGroup){
+    this.$el = $('<div>').addClass('die-container button');
+    this.$face = $('<div>').addClass('die-face').appendTo(this.$el);
+    this.$face.html(RemoveImage);
+    
+    return this;
+  }
+
   var RollAllButton = function(diceGroup){
     this.$el = $('<div>').addClass('die-container button');
     this.$face = $('<div>').addClass('die-face').appendTo(this.$el);
@@ -65,25 +75,39 @@ define(
     var newDiceButton = new NewDiceButton();
     this.$el.append(newDiceButton.$el);
     
+    var removeDiceButton = new RemoveDiceButton();
+    this.$el.append(removeDiceButton.$el);
+
     var newDice = new newDiceListView(diceGroup);
     this.$el.append(newDice.hide());
 
-    newDiceButton.$el.click(function(){
+    var evt;
+    if(Modernizr.touch){
+      evt = 'tap';
+    } else {
+      evt = 'click';
+    }
+
+    newDiceButton.$el.on(evt, function(){
       rollButton.$el.hide();
       newDiceButton.$el.hide();
       newDice.show();
     })
 
-    rollButton.$el.mouseup(function(){
+    rollButton.$el.on(evt,function(){
       diceGroup.rollAll();
     });
+
+    removeDiceButton.$el.on(evt,function(){
+      diceGroup.removeSelected();
+    })
 
     return this.$el;
   }
 
 
   var DiceGroup = function( name, dice ){
-    this.$el = $('<div>');
+    this.$el = $('<div>').addClass('dice-group');
     if( dice && _.isArray(dice) ) {
       this._dice = dice;
     } else if ( dice ) {
@@ -143,6 +167,17 @@ define(
     _.each(this._dice, function(die){
       die.roll();
     })
+  }
+
+  DiceGroup.prototype.removeSelected = function(){
+    _.each(this._dice, function(die){
+      if(die.selected){
+        die.destroy();
+        this._dice[_.indexOf(this._dice, die)] = 0;
+      }
+    }, this)
+    this._dice = _.compact(this._dice);
+    this.render();
   }
 
   DiceGroup.prototype.render = function(){

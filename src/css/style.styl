@@ -1,5 +1,7 @@
 @import 'nib'
 
+$side = 300px/4px;
+
 * { 
     box-sizing: border-box;
     -webkit-touch-callout: none;
@@ -38,8 +40,23 @@
   }
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'helvetica-neue' helvetica;
+}
+
 #board {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.title {
+  position: fixed;
+  width: 100%;
+  padding: 8px;
+  top: 0;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
 }
 
 .face.img {
@@ -48,47 +65,52 @@
 }
 
 .listWrapper {
-  overflow: auto;
-  width: 100%;  
+  background-color: #fff;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  border-top: 1px solid #ccc;
 }
 
 .actions {
   background-color: #999;
 }
 
+.dice-group {
+  width: 100%;
+  padding-top: 42px;
+  padding-bottom: (320px/4)+12px;
+  overflow: auto;
+}
+
 .die-container {
-  // font-family: 'MolotRegular';
-  // font: 100%/1.5;
-  background-color: #F23581;
+  position: relative;
   float: left;
-  // font-size: 3em;
-  margin: 0.25em;
-  // width: 100px;
-  // width: 1.5em;
-  // height: 1.5em;
-  line-height: 1em;
-  // color: #fff;
-  text-align: center;
+  width: $side;
+  height: $side;
+  margin: (20/8)px;
   border-radius: 4px;
   transition-duration: 0.25s;
   transition-timing-function: ease;
-  transform:scale3d(1,1,1); 
+  transform:scale3d(1,1,1);
 }
 
 .die-face {
+  width: $side;
+  height: $side;
   font-family: 'MolotRegular';
+  background-color: #F23581;
   font: 100%/1.5;
-  float: left;
   font-size: 3em;
-  // margin: 0.25em;
-  width: 1.5em;
-  height: 1.5em;
   line-height: 1em;
   color: #fff;
-  // background-color: #F23581;
   text-align: center;
   border-radius: 4px;
+}
 
+.face {
+  padding: 8px;
+  height: 100%;
 }
 
 .die-container.born {
@@ -104,21 +126,20 @@
 }
 
 .die-container.list {
-  width: 300px;
+  width: 100%;
   clear: both;
+
+  .die-face {
+    float: left;
+  }
 }
 
 .listView {
-  height: 1.5em;
+  height: $side;
   border-radius: 4px;
-  margin-left: 2px;
+  margin-left: $side+2.5px;
+  margin-right: 2.5px;
   background-color: #eee;
-}
-
-.face {
-  width: 100%;
-  height: 100%;
-  padding: 0.25em;
 }
 
 .die-face.rolling {
@@ -126,3 +147,20 @@
   animation-duration: 0.5s;
   animaton-timing-function: ease-in-out;
 }
+
+// @media screen and (max-width: 640px) {
+//   .die-container {
+  
+//     padding: 0px;
+
+//     // width: 20%;
+//     // padding-bottom: 20%;
+//     // height: 0;
+//   }
+
+//   .die-face {
+//     // position: absolute;
+//     // width: 100%;
+//     // left: 0;
+//   }
+// }

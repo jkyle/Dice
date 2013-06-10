@@ -11,7 +11,6 @@ function(
   var Face = function(faceType, face){
     this.faceType = faceType;
     this.$el = $('<div>').addClass('face');
-
     this.actions = [];
 
     this.face = face;
@@ -19,6 +18,14 @@ function(
 
   Face.prototype.getActions = function(){
     return this.actions;
+  }
+
+  Face.prototype.lock = function(){
+    this.$el.css('background-color', '#ddd');
+  }
+
+  Face.prototype.unlock = function(){
+    this.$el.css('background-color', 'transparent');
   }
 
   Face.prototype.render = function(){

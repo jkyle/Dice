@@ -12,19 +12,19 @@ define(
 ){
 
   var ViewOptionsView = function(){
-    this.$el = $('<div>');
-    this.$gridView = $('<span>Grid View</span>');
-    this.$listView = $('<span>List View</span>');
+    this.$el = $('<div class="title">My DiceGroup</div>')
+    this.$gridView = $('<button>Grid View</button>');
+    this.$listView = $('<button>List View</button>');
     this.$el.append(this.$gridView).append(this.$listView);
   }
 
   var Table = function( containerSelector ){
     var that = this;
 
-    var viewOptionsView = new ViewOptionsView();
+    this.viewOptionsView = new ViewOptionsView();
 
     this.$el = $(containerSelector);
-    this.$el.prepend(viewOptionsView.$el);
+    // this.$el.prepend(viewOptionsView.$el);
 
     this.$actionEl = $('<div>').addClass('actions hidden').appendTo(this.$el);
 
@@ -33,12 +33,8 @@ define(
     var defaultDiceGroup = new DiceGroup('default');
     this.addDiceGroup(defaultDiceGroup);
 
-    $(document).on('action', function(e, die){
-      console.log(die);
-    })
-
-    viewOptionsView.$gridView.click(function(){ that.setGridView() });
-    viewOptionsView.$listView.click(function(){ that.setListView() });
+    this.viewOptionsView.$gridView.click(function(){ that.setGridView() });
+    this.viewOptionsView.$listView.click(function(){ that.setListView() });
 
   };
 
@@ -85,6 +81,7 @@ define(
       this.$el.append(diceGroup.$el);
       diceGroup.render();
     }, this);
+    this.viewOptionsView.$el.appendTo(this.$el);
   };
 
   return Table;
