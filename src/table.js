@@ -12,10 +12,11 @@ define(
 ){
 
   var ViewOptionsView = function(){
-    this.$el = $('<div class="title">My DiceGroup</div>')
-    this.$gridView = $('<button>Grid View</button>');
-    this.$listView = $('<button>List View</button>');
-    this.$el.append(this.$gridView).append(this.$listView);
+    this.$el = $('<div class="title"><span class="buttons"></span><span class="title-text">My Dice</span></div>')
+    // this.$el = $('<div class="title"><input type="text" disabled value="My Dice"><input><span class="buttons"></span></div>')
+    this.$gridView = $('<button class="grid-button"></button>');
+    this.$listView = $('<button class="list-button"></button>');
+    this.$el.find('.buttons').append(this.$gridView).append(this.$listView);
   }
 
   var Table = function( containerSelector ){

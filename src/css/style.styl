@@ -1,6 +1,7 @@
 @import 'nib'
 
 $side = 300px/4px;
+$brand1 = #4CBFFC;
 
 * { 
     box-sizing: border-box;
@@ -43,7 +44,7 @@ $side = 300px/4px;
 body {
   margin: 0;
   padding: 0;
-  font-family: 'helvetica-neue' helvetica;
+  font-family: 'AvenirNextCondensed-Regular' 'HelveticaNeue-UltraLight' helvetica;
 }
 
 #board {
@@ -52,11 +53,49 @@ body {
 
 .title {
   position: fixed;
+  font-size: 1.5em;
   width: 100%;
-  padding: 8px;
+  height: 50px;
   top: 0;
-  border-bottom: 1px solid #ccc;
-  background-color: #fff;
+  background-color: $brand1;
+  color: #fff;
+  .title-text{
+    line-height: 50px;
+    height: 50px;
+    padding-left: 8px;
+  }
+  input{
+    font-family: 'AvenirNextCondensed-Regular' 'HelveticaNeue-UltraLight' helvetica;
+    padding: 8px;
+    background: transparent;
+    color: #fff;
+    font-size: 1em;
+    border: none;
+  }
+  .buttons {
+    // position: absolute;
+    // right: 0;
+    // top: 0;
+    // float: right;
+    button {
+      float: right;
+      height: 50px;
+      width: 50px;
+      border: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+button.grid-button {
+  background: url('images/grid.svg') transparent top left;
+  background-size: 50px 50px;
+}
+
+button.list-button {
+  background: url('images/list.svg') transparent top left;
+  background-size: 50px 50px;
 }
 
 .face.img {
@@ -65,7 +104,7 @@ body {
 }
 
 .listWrapper {
-  background-color: #fff;
+  background-color: $brand1;
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -78,7 +117,7 @@ body {
 
 .dice-group {
   width: 100%;
-  padding-top: 42px;
+  padding-top: 50px;
   padding-bottom: (320px/4)+12px;
   overflow: auto;
 }
